@@ -1,0 +1,2 @@
+Milliseconds it took to perform naive multiplication is: 13
+Milliseconds it took to perform row_column_major multiplication is: 7
