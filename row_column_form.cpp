@@ -6,7 +6,7 @@
 using namespace std::chrono;
 using std::vector;
 
-static const int _MATRIX_DIM = 1000;
+static const int _MATRIX_DIM = 2000;
 
 void init_matrix(vector<vector<double>> &mat) {
     std::default_random_engine generator;
@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
 
     auto start = high_resolution_clock::now();
     naive_multiplication(C, A, B);
-    auto duration = duration_cast<seconds> (high_resolution_clock::now() - start);
+    auto duration = duration_cast<milliseconds> (high_resolution_clock::now() - start);
 
     std::cout << "Milliseconds it took to perform naive multiplication is: " << duration.count() << std::endl;
 
@@ -121,7 +121,7 @@ int main(int argc, char const *argv[])
 
     start = high_resolution_clock::now();
     row_column_major_multiplication(C_major, A_row_major, B_column_major);
-    duration = duration_cast<seconds> (high_resolution_clock::now() - start);
+    duration = duration_cast<milliseconds> (high_resolution_clock::now() - start);
 
     std::cout << "Milliseconds it took to perform row_column_major multiplication is: " << duration.count() << std::endl;
 

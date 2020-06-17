@@ -7,7 +7,7 @@ using namespace std::chrono;
 using std::vector;
 
 static const int N = 3;
-static const int M = 5;
+static const int M = 4;
 
 void init_matrix(vector<vector<double>> &mat) {
     
@@ -27,18 +27,6 @@ void print_matrix(vector<vector<double>> &mat) {
         }
     }
     std::cout << std::endl;
-}
-
-void naive_multiplication(vector<vector<double>> &result, 
-                        vector<vector<double>> &A, 
-                        vector<vector<double>> &B) {
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
-            for(int k = 0; k < N; k++) {
-                result[i][j] += A[i][k]  * B[k][j];
-            }
-        }
-    }
 }
 
 // Assuming the matrix is in square form
@@ -72,23 +60,14 @@ void transpose_matrix(vector<double> &contiguous_mat) {
             std::cout << "i is: " << i << std::endl;
             continue;
         }
-        else {
-            index = i;
-            saved_value = contiguous_mat[index];
-        }
 
+        saved_index = i;
+        index = i;
+        saved_value = contiguous_mat[index];
         while(moved <= N * M) {
             saved_index = index;
-            std::cout << "saved index is: " << saved_index << std::endl;
-
             row_index = index / M;
-
-            std::cout << "row index is: " << row_index << std::endl;
-
             index = (index % M) * N + row_index;
-
-            std::cout << "index is: " << index << std::endl;
-
             if(checked[saved_index] == true) {
                 std::cout << "breaking out of while loop" << std::endl;
                 moved = 0;
@@ -101,63 +80,17 @@ void transpose_matrix(vector<double> &contiguous_mat) {
             saved_value = tmp;
             moved++;
             checked[saved_index] = true;
-
-            std:: cout << "tmp is: " << tmp << std::endl;
-            for(auto element: contiguous_mat) {
-                std::cout << element << " ";
-            }
-            std::cout << std::endl;
-
-            for(auto element: checked) {
-                std::cout << element << " ";
-            }
-            std::cout << std::endl;
         }
     }
 }
 
 int main(int argc, char const *argv[])
 {
-    /*
-    vector<vector<double>> A(N, vector<double> (N));
-    vector<vector<double>> B(N, vector<double> (N)); 
-    vector<vector<double>> C(N, vector<double> (N)); 
-    init_matrix(A);
-    init_matrix(B);
-
-    print_matrix(B);
-
-    transpose_square_matrix(B);
-
-    print_matrix(B);
-    */
-
-    vector<double> D {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-    transpose_matrix(D);
-    for(auto element: D) {
+    vector<double> A {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    transpose_matrix(A);
+    for(auto element: A) {
         std::cout << element << " ";
     }
     std::cout << std::endl;
-
-
-    /*
-    auto start = high_resolution_clock::now();
-    naive_multiplication(C, A, B);
-    auto duration = duration_cast<seconds> (high_resolution_clock::now() - start);
-
-    std::cout << "Milliseconds it took to perform naive multiplication is: " << duration.count() << std::endl;
-
-    vector<double> A_row_major(N * N, 0);
-    vector<double> B_column_major(N * N, 0);
-    vector<double> C_major(N * N, 0);
-
-
-    start = high_resolution_clock::now();
-
-    duration = duration_cast<seconds> (high_resolution_clock::now() - start);
-
-    std::cout << "Milliseconds it took to perform row_column_major multiplication is: " << duration.count() << std::endl;
-    */
-
     return 0;
 }
